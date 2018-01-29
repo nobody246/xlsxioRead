@@ -1,4 +1,4 @@
-** xlsxio-read **
+**xlsxio-read**
 
 bindings to libxlsxio that allow one to read excel files from Chicken Scheme.
 
