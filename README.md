@@ -15,9 +15,7 @@ bindings to libxlsxio that allow one to read excel files from Chicken Scheme.
 
 (require-library xlsxio-read)
 
-(use (prefix xlsxio-read xlsxr:)) ;assign xlsxio-read it's own prefix to avoid conflicts 
-
-                                  ;with procedures in xlsxio-write
+(use (prefix xlsxio-read xlsxr:)) ;assign xlsxio-read it's own prefix to avoid conflicts with procedures in xlsxio-write
 
 (xlsxr:open-xlsx "example.xlsx") ;open xlsx file
 
