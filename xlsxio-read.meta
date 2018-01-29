@@ -1,0 +1,4 @@
+((author "Alex Semotan")
+ (synopsis "Interface to libxlsxio")
+ (license "BSD")
+ (files "xlsxio-read.scm" "xlsxio-read.setup"))
