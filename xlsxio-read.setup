@@ -1,7 +1,0 @@
-(compile -s xlsxio-read.scm -o xlsxio-read.so  -lchicken -lexpat -lzip /usr/local/lib/libxlsxio_read.a)
-(install-extension 
-   'xlsxio-read
-   '("xlsxio-read.so")
-   '((version 1.0)))
-
-
