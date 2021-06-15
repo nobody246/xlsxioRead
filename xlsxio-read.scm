@@ -11,7 +11,7 @@
                     const XLSXIOCHAR* sheetname;
                     xlsxioreadersheet sheet;
                     XLSXIOCHAR* value;
-                    int filehandle = 0;")
+                    int filehandle = -1;")
 
   (define open-xlsx
     (foreign-lambda* number ((c-string filename))
@@ -27,7 +27,7 @@
 
   (define open-sheet-list
     (foreign-lambda* void ()
-      "if (xlsxioread != NULL)
+      "if (xlsxioread)
       {sheetlist = xlsxioread_sheetlist_open(xlsxioread);}"))
 
   (define next-sheet-name 
@@ -37,11 +37,14 @@
       C_return(xlsxioread_sheetlist_next(sheetlist));"))
 
   (define open-sheet
-    (foreign-lambda* void ((c-string sheetname))
-      "if (sheet != NULL)
-      {xlsxioread_sheet_close(sheet);}
-      if (filehandle > 0) //causes seg fault otherwise..
-      {sheet = xlsxioread_sheet_open(xlsxioread, sheetname, XLSXIOREAD_SKIP_EMPTY_ROWS);}"))
+    (foreign-lambda* number ((c-string sheetname))
+      "if (sheet)
+      {
+        xlsxioread_sheet_close(sheet);
+      }
+      if (filehandle!=-1)
+      {sheet = xlsxioread_sheet_open(xlsxioread, sheetname, XLSXIOREAD_SKIP_EMPTY_ROWS);
+}"))
 
   (define next-row
     (foreign-lambda* int ()
