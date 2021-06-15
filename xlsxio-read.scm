@@ -43,8 +43,7 @@
         xlsxioread_sheet_close(sheet);
       }
       if (filehandle!=-1)
-      {sheet = xlsxioread_sheet_open(xlsxioread, sheetname, XLSXIOREAD_SKIP_EMPTY_ROWS);
-}"))
+      {sheet = xlsxioread_sheet_open(xlsxioread, sheetname, XLSXIOREAD_SKIP_EMPTY_ROWS);}"))
 
   (define next-row
     (foreign-lambda* int ()
