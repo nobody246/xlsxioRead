@@ -63,8 +63,8 @@
     (foreign-lambda* void ()
       "if (sheetlist)
       {
-          sheetlist = NULL;
-          xlsxioread_sheetlist_close(sheetlist);
+        xlsxioread_sheetlist_close(sheetlist);
+        sheetlist = NULL;
       }"))
       
   (define close-xlsx
