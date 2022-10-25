@@ -32,10 +32,10 @@
 
   (define next-sheet-name 
     (foreign-lambda* c-string ()
-      "if (sheetlist == NULL)
-      {C_return(sheetlist);}
+      "if (!sheetlist)
+      {C_return(0);}
       C_return(xlsxioread_sheetlist_next(sheetlist));"))
-
+ 
   (define open-sheet
     (foreign-lambda* number ((c-string sheetname))
       "if (sheet)
