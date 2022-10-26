@@ -8,14 +8,19 @@
                     #include \"xlsxio_read.h\"
                     xlsxioreader xlsxioread;
                     xlsxioreadersheetlist sheetlist;
-                    const XLSXIOCHAR* sheetname;
                     xlsxioreadersheet sheet;
                     XLSXIOCHAR* value;
                     int filehandle = -1;")
 
   (define open-xlsx
     (foreign-lambda* number ((c-string filename))
-      "if ((filehandle = open(filename, O_RDONLY, 0)) == -1) {
+      "
+      if (sheet)
+      {sheet=NULL;}
+      if (sheetlist)
+      {sheetlist=NULL;}
+      filehandle = 0;
+      if ((filehandle = open(filename, O_RDONLY, 0)) == -1) {
         fprintf(stderr, \"Error opening .xlsx file\\n\");
         C_return(1);
       }
@@ -47,17 +52,24 @@
 
   (define next-row
     (foreign-lambda* int ()
-      "C_return(xlsxioread_sheet_next_row(sheet));"))
+      "if (!sheet)
+       {C_return(-1);}
+       C_return(xlsxioread_sheet_next_row(sheet));"))
 
   (define cell-val
     (foreign-lambda* c-string()
-      "C_return(xlsxioread_sheet_next_cell(sheet));"))
+      "if (!sheet)
+       {C_return(\"\");}
+       C_return(xlsxioread_sheet_next_cell(sheet));"))
 
 
   (define close-sheet
     (foreign-lambda* void ()
       "if (sheet)
-      {xlsxioread_sheet_close(sheet);}"))
+      {
+         xlsxioread_sheet_close(sheet);
+         sheet = NULL;
+      }"))
     
   (define close-sheet-list
     (foreign-lambda* void ()
@@ -69,9 +81,22 @@
       
   (define close-xlsx
     (foreign-lambda* int ()
-      "filehandle = 0;
+      "if (sheet)
+      {
+         xlsxioread_sheet_close(sheet);
+         sheet = NULL;
+      }
+      if (sheetlist)
+      {
+         xlsxioread_sheetlist_close(sheetlist);
+         sheetlist = NULL;
+      }      
+      filehandle = 0;
       if (xlsxioread)
-      {xlsxioread_close(xlsxioread);}
+      {
+         xlsxioread_close(xlsxioread);
+         xlsxioread = NULL;
+      }
       C_return(0);"))]
 
 
