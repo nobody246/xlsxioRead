@@ -5,7 +5,6 @@
   
   (foreign-declare "#include <xlsxio_read.h>
                     #include <sys/fcntl.h>
-                    #include \"xlsxio_read.h\"
                     xlsxioreader xlsxioread;
                     xlsxioreadersheetlist sheetlist;
                     xlsxioreadersheet sheet;
@@ -44,10 +43,8 @@
   (define open-sheet
     (foreign-lambda* number ((c-string sheetname))
       "if (sheet)
-      {
-        xlsxioread_sheet_close(sheet);
-      }
-      if (filehandle!=-1)
+      {xlsxioread_sheet_close(sheet);}
+      if (filehandle!=-1 && xlsxioread)
       {sheet = xlsxioread_sheet_open(xlsxioread, sheetname, XLSXIOREAD_SKIP_EMPTY_ROWS);}"))
 
   (define next-row
